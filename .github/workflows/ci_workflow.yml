@@ -1,0 +1,9 @@
+name: ci_workflow
+on: 
+    pull_requests: {}
+jobs:
+  check-bats-version:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - run: pytest test_file.py
