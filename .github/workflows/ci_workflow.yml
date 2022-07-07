@@ -1,6 +1,6 @@
 name: ci_workflow
 on: 
-    pull_requests: {}
+    pull_request: {}
 jobs:
   check-bats-version:
     runs-on: ubuntu-latest
