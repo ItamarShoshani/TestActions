@@ -1,5 +1,5 @@
 import pytest
-from Contract import Contract
+from contract import Contract
 
 def test_a():
   c = Contract()
