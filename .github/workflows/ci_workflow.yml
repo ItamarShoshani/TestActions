@@ -5,6 +5,9 @@ jobs:
   run_tests:
     runs-on: ubuntu-latest
     steps:
+      - run: export PYTHONPATH=$(pwd)
+      - run: pwd
+      - run: echo "aaa"
       - name: Checkout
         uses: actions/checkout@v3
       - name: Configure AWS credentials
