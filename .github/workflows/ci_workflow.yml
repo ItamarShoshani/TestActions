@@ -14,5 +14,5 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1
       - run: pip install -r requirements.txt
-      - run: pytest test_file.py
+      - run: pytest tests
       - run: aws s3 ls
