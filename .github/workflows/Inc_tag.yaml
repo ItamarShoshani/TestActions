@@ -15,12 +15,19 @@ jobs:
 
       - name: Determine branch name
         id: branch_name
-        run: echo "BRANCH_NAME=$(echo $GITHUB_REF | sed 's/refs\/heads\///')" >> $GITHUB_ENV
+        run: echo "BRANCH_NAME=$(echo $GITHUB_REF | sed 's/refs\/heads\/stable\-//')" >> $GITHUB_ENV
 
       - name: Get latest matching tag
         id: get_latest_matching_tag
+        continue-on-error: true
         run: |
           branch_name="${{ env.BRANCH_NAME }}"
+          latest_tag=$(git describe --tags --abbrev=0 --match "$branch_name*" 2>/dev/null)
+          if [ -z "$latest_tag" ]; then
+            echo "TAG=none" >> $GITHUB_ENV
+          else
+            echo "TAG=$latest_tag" >> $GITHUB_ENV
+          fi
 
       - name: Calculate New Tag
         id: calculate_new_tag
