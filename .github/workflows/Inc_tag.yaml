@@ -40,11 +40,11 @@ jobs:
           branch_name="${{ env.BRANCH_NAME }}"
           latest_tag="${{ env.TAG }}"
           if [ "$latest_tag" == "none" ]; then
-            new_tag="${branch_name}.0"
+            new_tag="v${branch_name}.0"
           else
-            version="${latest_tag##$branch_name}"
+            version="${latest_tag##v$branch_name}"
             version=$((version + 1))
-            new_tag="${branch_name}${version}"
+            new_tag="v${branch_name}${version}"
           fi
           echo "NEW_TAG=$new_tag" >> $GITHUB_ENV
 
