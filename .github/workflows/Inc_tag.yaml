@@ -13,6 +13,10 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
+      - name: Determine branch name
+        id: branch_name
+        run: branch_name=$(echo $GITHUB_REF | sed 's/refs\/heads\///')
+
       - name: Get latest matching tag
         id: get_latest_matching_tag
         run: |
