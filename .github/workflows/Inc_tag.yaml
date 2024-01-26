@@ -18,6 +18,9 @@ jobs:
           git config user.email "tag-bot@hypernative.io"
           git config user.name "tag-bot"
 
+      - name: Fetch Tags
+        run: git fetch --tags
+
       - name: Determine branch name
         id: branch_name
         run: echo "BRANCH_NAME=$(echo $GITHUB_REF | sed 's/refs\/heads\/stable\-//')" >> $GITHUB_ENV
