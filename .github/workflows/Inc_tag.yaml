@@ -1,0 +1,42 @@
+ name: Increment Tag
+ 
+ on:
+   push:
+     branches:
+       - 'stable-*'
+ 
+ jobs:
+   increment_tag:
+     runs-on: ubuntu-latest
+ 
+     steps:
+       - name: Checkout code
+         uses: actions/checkout@v2
+ 
+       - name: Determine branch name
+         id: branch_name
+         run: echo ::set-output name=BRANCH_NAME::$(echo $GITHUB_REF | sed 's/refs\/heads\///')
+ 
+       - name: Get latest matching tag
+         id: get_latest_matching_tag
+         run: |
+           branch_name="${{ steps.branch_name.outputs.BRANCH_NAME }}"
+           latest_tag=$(git describe --tags --abbrev=0 --match "$branch_name*")
+           echo "::set-output name=TAG::$latest_tag"
+ 
+       - name: Calculate new tag
+         id: calculate_new_tag
+         run: |
+           branch_name="${{ steps.branch_name.outputs.BRANCH_NAME }}"
+           latest_tag="${{ steps.get_latest_matching_tag.outputs.TAG }}"
+           version="${latest_tag##$branch_name}"
+           version=$((version + 1))
+           new_tag="${branch_name}${version}"
+           echo "::set-output name=NEW_TAG::$new_tag"
+ 
+       - name: Create new tag
+         id: create_new_tag
+         run: |
+           new_tag="${{ steps.calculate_new_tag.outputs.NEW_TAG }}"
+           git tag -a "$new_tag" -m "Version $new_tag"
+           git push origin --tags
