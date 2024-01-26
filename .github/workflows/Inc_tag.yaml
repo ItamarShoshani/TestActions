@@ -13,25 +13,21 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Determine branch name
-        id: branch_name
-        run: echo ::set-output name=BRANCH_NAME::$(echo $GITHUB_REF | sed 's/refs\/heads\///')
-
       - name: Get latest matching tag
         id: get_latest_matching_tag
         run: |
-          branch_name="${{ steps.branch_name.outputs.BRANCH_NAME }}"
+          branch_name=$(git branch --show-current)
           latest_tag=$(git describe --tags --abbrev=0 --match "$branch_name*" 2>/dev/null)
           if [ -z "$latest_tag" ]; then
-            echo "::set-output name=TAG::none"
+            echo "TAG=none" >> $GITHUB_OUTPUT
           else
-            echo "::set-output name=TAG::$latest_tag"
+            echo "TAG=${latest_tag}" >> $GITHUB_OUTPUT
           fi
 
       - name: Calculate New Tag
         id: calculate_new_tag
         run: |
-          branch_name="${{ steps.branch_name.outputs.BRANCH_NAME }}"
+          branch_name=$(git branch --show-current)
           latest_tag="${{ steps.get_latest_matching_tag.outputs.TAG }}"
           if [ "$latest_tag" == "none" ]; then
             new_tag="${branch_name}.0"
@@ -40,7 +36,7 @@ jobs:
             version=$((version + 1))
             new_tag="${branch_name}${version}"
           fi
-          echo "::set-output name=NEW_TAG::$new_tag"
+          echo "NEW_TAG=${new_tag}" >> $GITHUB_OUTPUT
 
       - name: Create new tag
         id: create_new_tag
