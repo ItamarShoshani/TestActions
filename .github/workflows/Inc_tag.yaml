@@ -27,7 +27,7 @@ jobs:
         continue-on-error: true
         run: |
           branch_name="${{ env.BRANCH_NAME }}"
-          latest_tag=$(git describe --tags --abbrev=0 --match "$branch_name*" 2>/dev/null || true)
+          latest_tag=$(git describe --tags --abbrev=0 --match "v$branch_name*" 2>/dev/null || true)
           if [ -z "$latest_tag" ]; then
             echo "TAG=none" >> $GITHUB_ENV
           else
