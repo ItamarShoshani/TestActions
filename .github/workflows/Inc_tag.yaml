@@ -24,7 +24,6 @@ jobs:
 
       - name: Get latest matching tag
         id: get_latest_matching_tag
-        continue-on-error: true
         run: |
           git fetch --tags
           branch_name="${{ env.BRANCH_NAME }}"
@@ -40,6 +39,7 @@ jobs:
         run: |
           branch_name="${{ env.BRANCH_NAME }}"
           latest_tag="${{ env.TAG }}"
+          echo $latest_tag
           if [ "$latest_tag" == "none" ]; then
             new_tag="v${branch_name}.0"
           else
