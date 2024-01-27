@@ -29,7 +29,7 @@ jobs:
           branch_name="${{ env.BRANCH_NAME }}"
           latest_tag=$(git describe --tags --abbrev=0 --match "v1.0*" 2>/dev/null || true)
           echo "AAAAAAAAAA"
-          git describe --tags --abbrev=0 2>/dev/null || true
+          git tag -n v*
           echo "BBBBBBBBBB"
           if [ -z "$latest_tag" ]; then
             echo "TAG=none" >> $GITHUB_ENV
