@@ -29,7 +29,7 @@ jobs:
           branch_name="${{ env.BRANCH_NAME }}"
           matching_tags=$(git tag -l | grep -E "^v$branch_name\.[0-9]+$" | sort -r)
           echo "AAAAAAAA"
-          echo git tag -l | grep -E "^v$branch_name\.[0-9]+$" | sort -r
+          echo git tag -l
           echo "BBBBBBBB"
           
           if [ -z "$latest_tag" ]; then
