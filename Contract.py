@@ -1,5 +1,5 @@
 class Contract:
-    symbol = "aaa"
+    symbol = "aaaa"
 
     def read_symbol(self):
         return self.symbol
